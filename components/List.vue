@@ -6,7 +6,7 @@
       @input="updatePage"
       circle
     ></v-pagination>
-    <v-row no-gutters>
+    <v-row>
       <v-col
         v-for="(article, index) in historyList"
         :key="index"
@@ -14,49 +14,57 @@
         md="6"
         lg="4"
       >
-        <v-sheet class="pa-2 ma-2">
-          <v-card width="100%" class="list-img">
-            <v-img :src="article.urlToImage"></v-img>
-            <v-card-title
-              ><a :href="article.url">{{ article.title }}</a></v-card-title
-            >
-            <v-card-text>{{ article.author }}</v-card-text>
-            <v-card-text
-              ><h4>Published date :</h4>
-              20th January 2023</v-card-text
-            >
-            <button @click="$router.push(`/details/${article.title}`)">
-              view Details
-            </button>
-          </v-card>
-        </v-sheet>
+        <!-- <v-sheet class=""> -->
+        <v-card height="100%">
+          <v-img height="40%" :src="article.urlToImage"></v-img>
+          <v-card-title
+            ><a :href="article.url">{{ article.title }}</a></v-card-title
+          >
+          <v-card-text>{{ article.author }}</v-card-text>
+          <v-card-text
+            ><h4>Published date :</h4>
+            20th January 2023</v-card-text
+          >
+          <v-btn @click="$router.push(`/details/${article.title}`)">
+            view Details
+          </v-btn>
+        </v-card>
+        <!-- </v-sheet> -->
       </v-col>
     </v-row>
   </v-container>
 </template>
-<script>
+
+<script lang="ts">
 import axios from 'axios'
+import { SingleDataType } from '~/interface/productInterface'
 export default {
   data() {
+    let artical: Array<SingleDataType> = []
+    let page: number = 1
+    let pageSize: number = 10
+    let listCount: number = 0
+    let historyList: Array<SingleDataType> = []
+    let fetchData
     return {
-      artical: [],
-      page: 1,
-      pageSize: 10,
-      listCount: 0,
-      historyList: [],
+      artical,
+      page,
+      pageSize,
+      listCount,
+      historyList,
     }
   },
   async mounted() {
     this.fetchData()
   },
   computed: {
-    pages() {
+    pages(): number {
       if (this.pageSize == null || this.listCount == null) return 0
       return Math.ceil(this.listCount / this.pageSize)
     },
   },
   methods: {
-    async fetchData() {
+    async fetchData(): Promise<void> {
       await axios
         .get(
           'https://newsapi.org/v2/everything?q=bitcoin&apiKey=70905943afe0477ab21103fdbb396454'
@@ -67,7 +75,7 @@ export default {
       this.initPage()
       this.updatePage(this.page)
     },
-    initPage() {
+    initPage(): void {
       this.listCount = this.artical.length
       if (this.listCount < this.pageSize) {
         this.historyList = this.artical
@@ -75,13 +83,11 @@ export default {
         this.historyList = this.artical.slice(0, this.pageSize)
       }
     },
-    updatePage(pageIndex) {
+    updatePage(pageIndex: number): void {
       let start = (pageIndex - 1) * this.pageSize
       let end = pageIndex * this.pageSize
       this.historyList = this.artical.slice(start, end)
       this.page = pageIndex
-      console.log(pageIndex, this.pageSize, 'pageIndex')
-      console.log(this.historyList, 'historyList')
     },
   },
 }
@@ -91,12 +97,12 @@ export default {
   display: flex;
 }
 button {
+  margin-bottom: 2%;
   margin-left: 18px;
   &.hover {
     color: #d8640ccc;
   }
 }
-
 .v-application a {
   color: #ffff;
   text-decoration: auto;
