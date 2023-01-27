@@ -20,9 +20,7 @@
 
 <script lang="ts">
 import axios from 'axios'
-import { Dictionary } from 'vue-router/types/router'
 import Vue from 'vue'
-// import Vue from 'vue/types/umd'
 import {SingleDataType} from '../../interface/productInterface'
 export default Vue.extend ({
   name: 'details',
@@ -41,13 +39,13 @@ export default Vue.extend ({
     this.fetchData(this.$route.params)
   },
   methods: {
-    fetchData(params: Dictionary<String>): void {
+    fetchData(params: Record<string, unknown>): void {
       axios
         .get(
           'https://newsapi.org/v2/everything?q=bitcoin&apiKey=70905943afe0477ab21103fdbb396454'
         )
         .then((res) => (this.data = res.data.articles))
-        const filterData: SingleDataType | any = this.data.find((e: SingleDataType) => e.title === params.title)
+        const filterData: SingleDataType | undefined = this.data.find((e: SingleDataType) => e.title === params.title)
         if(filterData) {
           this.product = filterData 
         }

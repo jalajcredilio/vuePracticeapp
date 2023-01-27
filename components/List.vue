@@ -56,7 +56,7 @@ export default Vue.extend(
     computed: {
       pages(): number {
         if (this.pageSize == null || this.listCount == null) return 0
-        return Math.ceil(this.listCount / this.pageSize)
+        return Math.ceil(this.listCount / this.pageSize)??0
       },
     },
     methods: {
