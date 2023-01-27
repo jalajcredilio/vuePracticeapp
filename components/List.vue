@@ -67,9 +67,9 @@ export default Vue.extend(
           )
           .then((res) => {
             this.artical = res.data.articles
+            this.initPage()
+            this.updatePage(this.page)
           })
-        this.initPage()
-        this.updatePage(this.page)
       },
       initPage(): void {
         this.listCount = this.artical.length
