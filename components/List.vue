@@ -37,60 +37,63 @@
 
 <script lang="ts">
 import axios from 'axios'
+import Vue from 'vue'
 import { SingleDataType } from '~/interface/productInterface'
-export default {
-  data() {
-    let artical: Array<SingleDataType> = []
-    let page: number = 1
-    let pageSize: number = 10
-    let listCount: number = 0
-    let historyList: Array<SingleDataType> = []
-    let fetchData
-    return {
-      artical,
-      page,
-      pageSize,
-      listCount,
-      historyList,
-    }
-  },
-  async mounted() {
-    this.fetchData()
-  },
-  computed: {
-    pages(): number {
-      if (this.pageSize == null || this.listCount == null) return 0
-      return Math.ceil(this.listCount / this.pageSize)
-    },
-  },
-  methods: {
-    async fetchData(): Promise<void> {
-      await axios
-        .get(
-          'https://newsapi.org/v2/everything?q=bitcoin&apiKey=70905943afe0477ab21103fdbb396454'
-        )
-        .then((res) => {
-          this.artical = res.data.articles
-        })
-      this.initPage()
-      this.updatePage(this.page)
-    },
-    initPage(): void {
-      this.listCount = this.artical.length
-      if (this.listCount < this.pageSize) {
-        this.historyList = this.artical
-      } else {
-        this.historyList = this.artical.slice(0, this.pageSize)
+export default Vue.extend(
+  {
+    data() {
+      let artical: Array<SingleDataType> = []
+      let page: number = 1
+      let pageSize: number = 10
+      let listCount: number = 0
+      let historyList: Array<SingleDataType> = []
+      let fetchData
+      return {
+        artical,
+        page,
+        pageSize,
+        listCount,
+        historyList,
       }
     },
-    updatePage(pageIndex: number): void {
-      let start = (pageIndex - 1) * this.pageSize
-      let end = pageIndex * this.pageSize
-      this.historyList = this.artical.slice(start, end)
-      this.page = pageIndex
+    mounted() {
+      this.fetchData()
     },
-  },
-}
+    computed: {
+      pages(): number {
+        if (this.pageSize == null || this.listCount == null) return 0
+        return Math.ceil(this.listCount / this.pageSize)
+      },
+    },
+    methods: {
+      async fetchData(): Promise<void> {
+        await axios
+          .get(
+            'https://newsapi.org/v2/everything?q=bitcoin&apiKey=70905943afe0477ab21103fdbb396454'
+          )
+          .then((res) => {
+            this.artical = res.data.articles
+          })
+        this.initPage()
+        this.updatePage(this.page)
+      },
+      initPage(): void {
+        this.listCount = this.artical.length
+        if (this.listCount < this.pageSize) {
+          this.historyList = this.artical
+        } else {
+          this.historyList = this.artical.slice(0, this.pageSize)
+        }
+      },
+      updatePage(pageIndex: number): void {
+        let start = (pageIndex - 1) * this.pageSize
+        let end = pageIndex * this.pageSize
+        this.historyList = this.artical.slice(start, end)
+        this.page = pageIndex
+      },
+    },
+  }
+) 
 </script>
 <style lang="scss">
 .v-card__text {

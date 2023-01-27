@@ -21,8 +21,10 @@
 <script lang="ts">
 import axios from 'axios'
 import { Dictionary } from 'vue-router/types/router'
+import Vue from 'vue'
+// import Vue from 'vue/types/umd'
 import {SingleDataType} from '../../interface/productInterface'
-export default {
+export default Vue.extend ({
   name: 'details',
   data() {
     const data: Array<SingleDataType> = []
@@ -38,7 +40,7 @@ export default {
       product,
     }
   },
-  async mounted() {
+  mounted() {
     this.fetchData(this.$route.params)
   },
   methods: {
@@ -54,7 +56,7 @@ export default {
         }
     },
   },
-}
+})
 </script>
 <style lang="scss">
 .date-v {
