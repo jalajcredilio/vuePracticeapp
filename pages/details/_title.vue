@@ -26,18 +26,15 @@ import Vue from 'vue'
 import {SingleDataType} from '../../interface/productInterface'
 export default Vue.extend ({
   name: 'details',
-  data() {
-    const data: Array<SingleDataType> = []
-    let product: SingleDataType = {
-      description: '',
-      urlToImage: '',
-      title: '',
-      author: ''
-    }
-
+  data() { 
     return {
-      data,
-      product,
+      data: [] as Array<SingleDataType>,
+      product: {
+        description: '',
+        urlToImage: '',
+        title: '',
+        author: ''
+      } as SingleDataType,
     }
   },
   mounted() {

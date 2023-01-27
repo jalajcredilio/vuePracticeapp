@@ -42,17 +42,12 @@ import { SingleDataType } from '~/interface/productInterface'
 export default Vue.extend(
   {
     data() {
-      let artical: Array<SingleDataType> = []
-      let page: number = 1
-      let pageSize: number = 10
-      let listCount: number = 0
-      let historyList: Array<SingleDataType> = []
       return {
-        artical,
-        page,
-        pageSize,
-        listCount,
-        historyList,
+        artical: [] as Array<SingleDataType>,
+        page: 1 as number,
+        pageSize: 10 as number,
+        listCount: 0 as number,
+        historyList: [] as Array<SingleDataType>,
       }
     },
     mounted() {
