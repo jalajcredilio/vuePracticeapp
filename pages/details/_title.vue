@@ -45,7 +45,7 @@ export default Vue.extend ({
           'https://newsapi.org/v2/everything?q=bitcoin&apiKey=70905943afe0477ab21103fdbb396454'
         )
         .then((res) => (this.data = res.data.articles))
-        const filterData: SingleDataType | undefined = this.data.find((e: SingleDataType) => e.title === params.title)
+        const filterData: SingleDataType = this.data.find((e: SingleDataType) => e.title === params.title) || ({} as SingleDataType)
         if(filterData) {
           this.product = filterData 
         }
