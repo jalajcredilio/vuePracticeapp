@@ -47,7 +47,6 @@ export default Vue.extend(
       let pageSize: number = 10
       let listCount: number = 0
       let historyList: Array<SingleDataType> = []
-      let fetchData
       return {
         artical,
         page,
@@ -66,8 +65,8 @@ export default Vue.extend(
       },
     },
     methods: {
-      async fetchData(): Promise<void> {
-        await axios
+      fetchData(): void {
+        axios
           .get(
             'https://newsapi.org/v2/everything?q=bitcoin&apiKey=70905943afe0477ab21103fdbb396454'
           )

@@ -44,8 +44,8 @@ export default Vue.extend ({
     this.fetchData(this.$route.params)
   },
   methods: {
-    async fetchData(params: Dictionary<String>): Promise<void> {
-      await axios
+    fetchData(params: Dictionary<String>): void {
+      axios
         .get(
           'https://newsapi.org/v2/everything?q=bitcoin&apiKey=70905943afe0477ab21103fdbb396454'
         )
