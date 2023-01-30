@@ -3,46 +3,57 @@
     <v-card elevation="2">
       <v-img
         class="white--text align-end"
-        height="200px"
-        :src="singleData.urlToImage"
+        :src="product.urlToImage"
       >
-        <v-card-title>{{ singleData.title }}</v-card-title>
+        <v-card-title>{{ product.title }}</v-card-title>
       </v-img>
 
       <v-card-subtitle class="pb-0">
-        {{ singleData.description }}
+        {{ product.description }}
       </v-card-subtitle>
 
-      <v-card-text class="text--primary">{{ singleData.author }} </v-card-text>
-      <h5 class="date-v">Published date : 20th January 2023</h5>
+      <v-card-text class="text--primary">{{ product.author }} </v-card-text>
+      <h5 class="date-v">Published date : {{ $moment(product.publishedAt).format('Do MMMM YYYY')}}</h5>
     </v-card>
   </div>
 </template>
-<script>
+
+<script lang="ts">
 import axios from 'axios'
-export default {
+import Vue from 'vue'
+import {Article} from '../../interface/productInterface'
+export default Vue.extend ({
   name: 'details',
-  data() {
+  data() { 
     return {
-      data: [],
-      singleData: [],
+      data: [] as Array<Article>,
+      product: {
+        description: '',
+        urlToImage: '',
+        title: '',
+        author: ''
+      } as Article,
     }
   },
-  async mounted() {
+  mounted() {
     this.fetchData(this.$route.params)
   },
   methods: {
-    async fetchData(params) {
-      await axios
+    fetchData(params: Record<string, unknown>): void {
+      axios
         .get(
           'https://newsapi.org/v2/everything?q=bitcoin&apiKey=70905943afe0477ab21103fdbb396454'
         )
-        .then((res) => (this.data = res.data.articles))
-
-      this.singleData = this.data.find((e) => e.title === params.title)
+        .then((res) => {
+          this.data = res.data.articles
+          const filterData: Article = this.data.find((e: Article) => e.title === params.title) || ({} as Article)
+          if(filterData) {
+            this.product = filterData 
+          }
+        })
     },
   },
-}
+})
 </script>
 <style lang="scss">
 .date-v {
