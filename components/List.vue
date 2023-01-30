@@ -14,22 +14,22 @@
         md="6"
         lg="4"
       >
-        <!-- <v-sheet class=""> -->
         <v-card height="100%">
-          <v-img height="40%" :src="article.urlToImage"></v-img>
+          <v-container>
+            <v-img :src="article.urlToImage"></v-img>
+          </v-container>
           <v-card-title
             ><a :href="article.url">{{ article.title }}</a></v-card-title
           >
           <v-card-text>{{ article.author }}</v-card-text>
           <v-card-text
             ><h4>Published date :</h4>
-            20th January 2023</v-card-text
+            {{ $moment(article.publishedAt).format('Do MMMM YYYY')}}</v-card-text
           >
           <v-btn @click="$router.push(`/details/${article.title}`)">
             view Details
           </v-btn>
         </v-card>
-        <!-- </v-sheet> -->
       </v-col>
     </v-row>
   </v-container>
@@ -38,16 +38,16 @@
 <script lang="ts">
 import axios from 'axios'
 import Vue from 'vue'
-import { SingleDataType } from '~/interface/productInterface'
+import { Article } from '~/interface/productInterface'
 export default Vue.extend(
   {
     data() {
       return {
-        artical: [] as Array<SingleDataType>,
+        artical: [] as Array<Article>,
         page: 1 as number,
         pageSize: 10 as number,
         listCount: 0 as number,
-        historyList: [] as Array<SingleDataType>,
+        historyList: [] as Array<Article>,
       }
     },
     mounted() {

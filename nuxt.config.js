@@ -32,6 +32,7 @@ export default {
     '@nuxt/typescript-build',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
+    '@nuxtjs/moment',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -39,6 +40,8 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
   ],
+
+  moment: {},
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {

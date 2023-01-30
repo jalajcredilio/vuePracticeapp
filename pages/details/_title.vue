@@ -13,7 +13,7 @@
       </v-card-subtitle>
 
       <v-card-text class="text--primary">{{ product.author }} </v-card-text>
-      <h5 class="date-v">Published date : 20th January 2023</h5>
+      <h5 class="date-v">Published date : {{ $moment(product.publishedAt).format('Do MMMM YYYY')}}</h5>
     </v-card>
   </div>
 </template>
@@ -21,18 +21,18 @@
 <script lang="ts">
 import axios from 'axios'
 import Vue from 'vue'
-import {SingleDataType} from '../../interface/productInterface'
+import {Article} from '../../interface/productInterface'
 export default Vue.extend ({
   name: 'details',
   data() { 
     return {
-      data: [] as Array<SingleDataType>,
+      data: [] as Array<Article>,
       product: {
         description: '',
         urlToImage: '',
         title: '',
         author: ''
-      } as SingleDataType,
+      } as Article,
     }
   },
   mounted() {
@@ -46,7 +46,7 @@ export default Vue.extend ({
         )
         .then((res) => {
           this.data = res.data.articles
-          const filterData: SingleDataType = this.data.find((e: SingleDataType) => e.title === params.title) || ({} as SingleDataType)
+          const filterData: Article = this.data.find((e: Article) => e.title === params.title) || ({} as Article)
           if(filterData) {
             this.product = filterData 
           }
